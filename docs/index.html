@@ -1,22 +1,146 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>VolT OS</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VolT OS</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at top, #121a2b, #05070f);
+    color: #ffffff;
+}
+
+/* Top bar */
+header {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 48px;
+    margin: 0;
+    color: #00e5ff;
+    text-shadow: 0 0 20px #00e5ff;
+}
+
+p.subtitle {
+    color: #aaa;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 20px;
+    background: #00e5ff;
+    color: #000;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.btn:hover {
+    background: #00bcd4;
+}
+
+/* Sections */
+section {
+    max-width: 900px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(0,229,255,0.2);
+    border-radius: 12px;
+    padding: 15px;
+    backdrop-filter: blur(6px);
+}
+
+.card h3 {
+    margin-top: 0;
+    color: #00e5ff;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #666;
+    font-size: 14px;
+}
+</style>
 </head>
-<body style="background:#0f0f0f;color:white;font-family:sans-serif;">
-  <h1>⚡ VolT OS</h1>
-  <p>A Debian-based gaming OS built for speed, simplicity, and cross-platform support.</p>
 
-  <h2>Features</h2>
-  <ul>
-    <li>Gaming-focused Linux experience</li>
-    <li>Supports AMD64 and ARM64</li>
-    <li>Wine + Proton integration</li>
-    <li>AppImage + APK support</li>
-    <li>Custom VolT Launcher</li>
-  </ul>
+<body>
 
-  <h2>Downloads</h2>
-  <p>Coming soon...</p>
+<header>
+    <h1>⚡ VolT OS</h1>
+    <p class="subtitle">A Debian-based gaming OS built for speed, simplicity, and cross-platform power.</p>
+    <a class="btn" href="#">Downloads (Coming Soon)</a>
+</header>
+
+<section>
+    <h2>🔥 Features</h2>
+    <div class="card-grid">
+
+        <div class="card">
+            <h3>🎮 Gaming First</h3>
+            <p>Optimized for Steam, Proton, Wine, and modern PC gaming.</p>
+        </div>
+
+        <div class="card">
+            <h3>⚙️ Lightweight</h3>
+            <p>No bloat. Clean Debian base tuned for performance.</p>
+        </div>
+
+        <div class="card">
+            <h3>🍷 Windows Apps</h3>
+            <p>Run .exe and .msi using Wine + Bottles integration.</p>
+        </div>
+
+        <div class="card">
+            <h3>📱 Android Support</h3>
+            <p>Run APKs using Waydroid (ARM64 supported builds).</p>
+        </div>
+
+        <div class="card">
+            <h3>📦 AppImage Ready</h3>
+            <p>Double-click AppImages and run instantly.</p>
+        </div>
+
+        <div class="card">
+            <h3>⚡ Cross Platform</h3>
+            <p>Supports AMD64, ARM64, and Raspberry Pi systems.</p>
+        </div>
+
+    </div>
+</section>
+
+<section>
+    <h2>🚀 Project Status</h2>
+    <div class="card">
+        <p>VolT OS is currently in early development. ISOs and builds will be released soon.</p>
+        <p>Follow development on GitHub for updates.</p>
+    </div>
+</section>
+
+<footer>
+    VolT OS © 2026 — Built for performance, not bloat.
+</footer>
+
 </body>
 </html>
