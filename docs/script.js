@@ -1,6 +1,8 @@
 console.log("VolT OS loaded");
 
-// Future use:
-// - launcher animations
-// - downloads system
-// - OS UI interactions
+// Flip cards on click
+document.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("click", () => {
+        card.classList.toggle("flipped");
+    });
+});
