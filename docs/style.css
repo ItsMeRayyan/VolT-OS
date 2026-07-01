@@ -1,0 +1,142 @@
+/* ===== VOLT OS BASE ===== */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at top, #121a2b, #05070f);
+    color: white;
+}
+
+/* ===== HEADER ===== */
+
+header {
+    padding: 70px 20px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 58px;
+    color: #00e5ff;
+    text-shadow: 0 0 20px #00e5ff;
+    margin: 0;
+}
+
+.subtitle {
+    color: #aaa;
+    margin-top: 10px;
+}
+
+/* ===== NAV / BUTTONS ===== */
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(0,0,0,0.25);
+    border-bottom: 1px solid rgba(0,229,255,0.2);
+}
+
+nav a {
+    color: #00e5ff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+nav a:hover {
+    color: white;
+}
+
+/* Buttons (if used in header) */
+.buttons {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    padding: 12px 22px;
+    min-width: 150px;
+
+    background: rgba(0, 229, 255, 0.12);
+    border: 1px solid rgba(0, 229, 255, 0.5);
+    color: #00e5ff;
+
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: bold;
+
+    transition: 0.2s ease;
+    box-shadow: 0 0 10px rgba(0,229,255,0.15);
+}
+
+.btn:hover {
+    background: #00e5ff;
+    color: black;
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 0 20px rgba(0,229,255,0.6);
+}
+
+/* ===== MAIN LAYOUT ===== */
+
+main {
+    width: min(1100px, 92vw);
+    margin: auto;
+    padding: 30px 0;
+}
+
+/* ===== HEADINGS ===== */
+
+h2 {
+    color: #00e5ff;
+}
+
+/* ===== GRID ===== */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+/* ===== CARDS (for future wiki/features) ===== */
+
+.card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(0,229,255,0.2);
+    padding: 18px;
+    border-radius: 12px;
+    backdrop-filter: blur(6px);
+    transition: 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    border-color: #00e5ff;
+}
+
+.card i {
+    color: #00e5ff;
+    font-size: 22px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* ===== FOOTER ===== */
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #666;
+    font-size: 14px;
+    border-top: 1px solid rgba(0,229,255,0.15);
+    margin-top: 40px;
+}
