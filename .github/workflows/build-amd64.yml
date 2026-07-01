@@ -1,4 +1,4 @@
-name: Build VolT OS AMD64 (Debian Container)
+name: Build VolT OS AMD64
 
 on:
   workflow_dispatch:
@@ -7,38 +7,31 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    # 🚫 This removes Ubuntu influence completely
-    container:
-      image: debian:trixie
-
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
       - name: Install dependencies
         run: |
-          apt update
-          apt install -y \
+          sudo apt update
+          sudo apt install -y \
             live-build \
             debootstrap \
             squashfs-tools \
             xorriso \
             ca-certificates \
-            debian-archive-keyring \
-            coreutils \
-            git
+            debian-archive-keyring
 
-      - name: Checkout repo
-        run: |
-          git clone https://github.com/${{ github.repository }} .
-      
       - name: Clean previous build
         working-directory: build/amd64
         run: |
-          lb clean --purge || true
+          sudo lb clean --purge || true
           rm -rf chroot binary cache config
 
       - name: Configure live-build
         working-directory: build/amd64
         run: |
-          lb config \
+          sudo lb config \
             --mode debian \
             --distribution trixie \
             --architecture amd64 \
@@ -53,7 +46,7 @@ jobs:
 
       - name: Build ISO
         working-directory: build/amd64
-        run: lb build
+        run: sudo lb build
 
       - name: Upload ISO
         uses: actions/upload-artifact@v4
