@@ -1,8 +1,14 @@
 #!/bin/sh
 
 lb config \
+  --mode debian \
   --distribution trixie \
   --architecture amd64 \
   --binary-images iso-hybrid \
   --debian-installer live \
-  --archive-areas "main contrib non-free non-free-firmware"
+  --archive-areas "main contrib non-free non-free-firmware" \
+  --mirror-bootstrap https://deb.debian.org/debian/ \
+  --mirror-chroot https://deb.debian.org/debian/ \
+  --mirror-binary https://deb.debian.org/debian/ \
+  --mirror-binary-security https://security.debian.org/debian-security/ \
+  --mirror-chroot-security https://security.debian.org/debian-security/
