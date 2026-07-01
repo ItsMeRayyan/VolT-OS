@@ -1,115 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>VolT OS</title>
 
-<!-- Font Awesome Icons -->
+<link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: radial-gradient(circle at top, #121a2b, #05070f);
-    color: #ffffff;
-}
-
-/* Header */
-header {
-    padding: 70px 20px;
-    text-align: center;
-}
-
-h1 {
-    font-size: 52px;
-    margin: 0;
-    color: #00e5ff;
-    text-shadow: 0 0 20px #00e5ff;
-}
-
-.subtitle {
-    color: #aaa;
-    font-size: 18px;
-    margin-top: 10px;
-}
-
-/* Button */
-.btn {
-    display: inline-block;
-    margin-top: 25px;
-    padding: 12px 22px;
-    background: #00e5ff;
-    color: #000;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: 0.2s;
-}
-
-.btn:hover {
-    background: #00bcd4;
-}
-
-/* Sections */
-section {
-    max-width: 1000px;
-    margin: auto;
-    padding: 40px 20px;
-}
-
-h2 {
-    color: #00e5ff;
-    margin-bottom: 20px;
-}
-
-/* Cards */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 15px;
-}
-
-.card {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(0,229,255,0.2);
-    border-radius: 12px;
-    padding: 18px;
-    backdrop-filter: blur(6px);
-    transition: 0.2s;
-}
-
-.card:hover {
-    transform: translateY(-4px);
-    border-color: #00e5ff;
-}
-
-.card i {
-    font-size: 22px;
-    color: #00e5ff;
-    margin-bottom: 10px;
-    display: block;
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    padding: 30px;
-    color: #666;
-    font-size: 14px;
-}
-</style>
 </head>
 
 <body>
 
 <header>
     <h1>VolT OS</h1>
-    <p class="subtitle">A Debian-based gaming OS built for speed, simplicity, and cross-platform power.</p>
-    
-    <a class="btn" href="#">Downloads (Coming Soon)</a>
-    <a href="wiki/">Wiki</a>
+    <p class="subtitle">A Debian-based gaming OS built for speed, simplicity, and power.</p>
+
+    <div class="buttons">
+        <a class="btn" href="#">
+            <i class="fa-solid fa-download"></i> Downloads
+        </a>
+
+        <a class="btn" href="wiki/">
+            <i class="fa-solid fa-book"></i> Wiki
+        </a>
+    </div>
 </header>
 
 <section>
@@ -120,54 +35,39 @@ footer {
         <div class="card">
             <i class="fa-solid fa-gamepad"></i>
             <h3>Gaming First</h3>
-            <p>Optimized for Steam, Proton, Wine, and modern gaming.</p>
+            <p>Steam, Proton, Wine optimized performance.</p>
         </div>
 
         <div class="card">
             <i class="fa-solid fa-bolt"></i>
             <h3>Lightweight</h3>
-            <p>No bloat. Clean Debian base tuned for performance.</p>
-        </div>
-
-        <div class="card">
-            <i class="fa-solid fa-window-maximize"></i>
-            <h3>Windows Apps</h3>
-            <p>Run EXE & MSI apps using Wine + Bottles.</p>
-        </div>
-
-        <div class="card">
-            <i class="fa-solid fa-mobile-screen"></i>
-            <h3>Android Support</h3>
-            <p>Run APKs using Waydroid (ARM64 builds).</p>
+            <p>No bloat. Clean Debian base.</p>
         </div>
 
         <div class="card">
             <i class="fa-solid fa-box"></i>
             <h3>AppImage Ready</h3>
-            <p>Double-click AppImages and run instantly.</p>
+            <p>Double-click apps instantly.</p>
         </div>
 
         <div class="card">
             <i class="fa-solid fa-microchip"></i>
             <h3>Cross Platform</h3>
-            <p>Supports AMD64, ARM64, and Raspberry Pi devices.</p>
+            <p>AMD64 + ARM64 support planned.</p>
         </div>
 
     </div>
 </section>
 
 <section>
-    <h2>Project Status</h2>
+    <h2>Status</h2>
     <div class="card">
         <i class="fa-solid fa-gear"></i>
-        <h3>In Development</h3>
-        <p>VolT OS is currently in early development. ISO builds and downloads will be available soon.</p>
+        <h3>Early Development</h3>
+        <p>VolT OS is actively being built.</p>
     </div>
 </section>
 
-<footer>
-    VolT OS © 2026 — Built for performance, not bloat.
-</footer>
-
+<script src="script.js"></script>
 </body>
 </html>
