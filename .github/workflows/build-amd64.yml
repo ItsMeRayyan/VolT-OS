@@ -2,34 +2,29 @@ name: Build VolT OS AMD64
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Install live-build and Debian keyring
+      - name: Install dependencies
         run: |
           sudo apt update
-          sudo DEBIAN_FRONTEND=noninteractive apt install -y \
-            live-build debootstrap squashfs-tools xorriso \
-            debian-archive-keyring ca-certificates apt-transport-https
+          sudo apt install -y live-build debootstrap squashfs-tools xorriso
 
-      - name: Configure live-build (explicit Debian mirror)
+      - name: Clean
+        run: sudo lb clean --purge || true
+
+      - name: Configure
         run: |
           lb config \
             --distribution trixie \
             --architecture amd64 \
             --binary-images iso-hybrid \
-            --archive-areas "main contrib non-free non-free-firmware" \
-            --mirror https://deb.debian.org/debian/ \
-            --mirror-bootstrap https://deb.debian.org/debian/
+            --archive-areas "main contrib non-free non-free-firmware"
 
       - name: Build ISO
         run: sudo lb build
@@ -37,5 +32,5 @@ jobs:
       - name: Upload ISO
         uses: actions/upload-artifact@v4
         with:
-          name: VolT-OS-amd64
+          name: volt-os-amd64
           path: "*.iso"
