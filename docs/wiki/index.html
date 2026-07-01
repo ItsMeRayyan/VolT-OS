@@ -1,46 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>VolT OS Wiki</title>
-<style>
-body {
-  font-family: Arial;
-  background: #0b0f1a;
-  color: white;
-  margin: 0;
-  padding: 40px;
-}
-h1 { color: #00e5ff; }
-a {
-  color: #00e5ff;
-  display: block;
-  margin: 10px 0;
-  text-decoration: none;
-}
-a:hover { text-decoration: underline; }
-.card {
-  background: rgba(255,255,255,0.05);
-  padding: 15px;
-  border-radius: 10px;
-  max-width: 600px;
-}
-</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VolT OS</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body>
 
-<h1>⚡ VolT OS Wiki</h1>
+<header>
+    <h1>VolT OS</h1>
+    <p class="subtitle">A Debian-based gaming OS built for speed, simplicity, and power.</p>
 
-<div class="card">
-  <p>Welcome to the VolT OS “stupid wiki”. This is where ideas, systems, and chaos are organized.</p>
-</div>
+    <div class="buttons">
+        <a class="btn" href="#">Downloads</a>
+        <a class="btn" href="wiki/">Wiki</a>
+    </div>
+</header>
 
-<h2>Pages</h2>
+<section>
+    <h2>Features</h2>
 
-<a href="architecture.html">🧠 Architecture</a>
-<a href="features.html">🎮 Features</a>
-<a href="roadmap.html">🚀 Roadmap</a>
-<a href="random-notes.html">🤪 Random Notes</a>
+    <div class="grid">
 
+        <div class="card">
+            <i class="fa-solid fa-gamepad"></i>
+            <h3>Gaming First</h3>
+            <p>Steam, Proton, Wine optimized performance.</p>
+        </div>
+
+        <div class="card">
+            <i class="fa-solid fa-bolt"></i>
+            <h3>Lightweight</h3>
+            <p>No bloat. Clean Debian base.</p>
+        </div>
+
+        <div class="card">
+            <i class="fa-solid fa-box"></i>
+            <h3>AppImage Ready</h3>
+            <p>Double-click apps instantly.</p>
+        </div>
+
+        <div class="card">
+            <i class="fa-solid fa-microchip"></i>
+            <h3>Cross Platform</h3>
+            <p>AMD64 + ARM64 support planned.</p>
+        </div>
+
+    </div>
+</section>
+
+<section>
+    <h2>Status</h2>
+    <div class="card">
+        <i class="fa-solid fa-gear"></i>
+        <h3>Early Development</h3>
+        <p>VolT OS is actively being built.</p>
+    </div>
+</section>
+
+<script src="script.js"></script>
 </body>
 </html>
