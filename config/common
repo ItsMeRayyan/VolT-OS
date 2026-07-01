@@ -1,3 +1,0 @@
-LB_ARCHITECTURES="amd64"
-LB_SYSTEM="live"
-LB_MODE="debian"
