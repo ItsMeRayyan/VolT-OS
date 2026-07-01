@@ -1,0 +1,124 @@
+/* ===== BASE ===== */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at top, #121a2b, #05070f);
+    color: white;
+}
+
+/* ===== HEADER ===== */
+
+header {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+h1 {
+    font-size: 60px;
+    color: #00e5ff;
+    text-shadow: 0 0 20px #00e5ff;
+    margin: 0;
+}
+
+.subtitle {
+    color: #aaa;
+    margin-top: 10px;
+}
+
+/* ===== BUTTONS ===== */
+
+.buttons {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 22px;
+    min-width: 150px;
+
+    background: rgba(0, 229, 255, 0.12);
+    border: 1px solid rgba(0, 229, 255, 0.5);
+    color: #00e5ff;
+
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: bold;
+
+    transition: 0.2s ease;
+    box-shadow: 0 0 10px rgba(0,229,255,0.15);
+}
+
+.btn:hover {
+    background: #00e5ff;
+    color: black;
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 0 20px rgba(0,229,255,0.6);
+}
+
+/* ===== MAIN LAYOUT ===== */
+
+main {
+    width: min(1100px, 92vw);
+    margin: auto;
+    padding: 30px 0;
+}
+
+/* ===== HEADINGS ===== */
+
+h2 {
+    color: #00e5ff;
+}
+
+/* ===== GRID ===== */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+/* ===== CARDS ===== */
+
+.card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(0,229,255,0.2);
+    padding: 18px;
+    border-radius: 12px;
+    backdrop-filter: blur(6px);
+    transition: 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    border-color: #00e5ff;
+}
+
+.card i {
+    color: #00e5ff;
+    font-size: 22px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.card h3 {
+    margin: 8px 0;
+}
+
+/* ===== FOOTER (if you add later) ===== */
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #666;
+    font-size: 14px;
+    border-top: 1px solid rgba(0,229,255,0.15);
+    margin-top: 40px;
+}
