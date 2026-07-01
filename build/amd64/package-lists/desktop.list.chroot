@@ -1,0 +1,15 @@
+kde-standard
+plasma-desktop
+plasma-workspace
+sddm
+sddm-theme-breeze
+
+konsole
+dolphin
+kate
+kwrite
+ark
+okular
+
+kwalletmanager
+kdialog
