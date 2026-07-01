@@ -1,4 +1,47 @@
-- name: Clean build environment
-  run: |
-    sudo rm -rf chroot binary cache || true
-    sudo lb clean --purge || true
+name: Build VolT OS AMD64
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y \
+            live-build \
+            debootstrap \
+            squashfs-tools \
+            xorriso \
+            coreutils
+
+      - name: Clean previous build (important)
+        run: |
+          sudo rm -rf chroot binary cache || true
+          sudo lb clean --purge || true
+
+      - name: Configure live-build
+        working-directory: build/amd64
+        run: |
+          lb config \
+            --distribution trixie \
+            --architecture amd64 \
+            --binary-images iso-hybrid \
+            --debian-installer live \
+            --archive-areas "main contrib non-free non-free-firmware"
+
+      - name: Build ISO
+        working-directory: build/amd64
+        run: sudo lb build
+
+      - name: Upload ISO artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: VolT-OS-amd64
+          path: build/amd64/*.iso
