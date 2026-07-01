@@ -5,16 +5,17 @@
 <title>{{ page.title }}</title>
 <link rel="stylesheet" href="/style.css">
 </head>
-
+  
 <body>
 
-<header>
-  <h1>{{ site.title }}</h1>
-</header>
+  {% include header.html %}
 
-<main>
-  {{ content }}
-</main>
+  <main>
+    {{ content }}
+  </main>
+
+  {% include footer.html %}
 
 </body>
+
 </html>
