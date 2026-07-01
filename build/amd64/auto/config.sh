@@ -1,5 +1,4 @@
 #!/bin/sh
-
 set -e
 
 lb config \
@@ -9,7 +8,7 @@ lb config \
   --binary-images iso-hybrid \
   --debian-installer live \
   --archive-areas "main contrib non-free non-free-firmware" \
-  --mirror-bootstrap http://deb.debian.org/debian/ \
-  --mirror-chroot http://deb.debian.org/debian/ \
-  --mirror-binary http://deb.debian.org/debian/ \
-  --security false
+  --mirror-bootstrap https://deb.debian.org/debian/ \
+  --mirror-chroot https://deb.debian.org/debian/ \
+  --mirror-binary https://deb.debian.org/debian/ \
+  --security true
