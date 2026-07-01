@@ -1,0 +1,8 @@
+firefox-esr
+wget
+curl
+
+network-manager
+plasma-nm
+
+ca-certificates
