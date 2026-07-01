@@ -1,0 +1,9 @@
+plasma-integration
+xdg-desktop-portal
+xdg-desktop-portal-kde
+
+qt6-base-dev
+qt6-wayland
+
+libgl1
+mesa-utils-extra
