@@ -1,0 +1,4 @@
+PRETTY_NAME="VolT OS (Trixie KDE)"
+NAME="VolT OS"
+ID=voltos
+ID_LIKE=debian
