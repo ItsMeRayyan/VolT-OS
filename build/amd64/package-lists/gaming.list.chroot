@@ -1,0 +1,10 @@
+steam
+gamemode
+gamescope
+
+mesa-utils
+vulkan-tools
+vulkan-validationlayers
+
+libvulkan1
+mesa-vulkan-drivers
