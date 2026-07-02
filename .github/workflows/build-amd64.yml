@@ -1,4 +1,4 @@
-name: VolT OS AMD64
+name: VolT OS AMD64 (Debian Stable)
 
 on:
   workflow_dispatch:
@@ -16,29 +16,15 @@ jobs:
       DEBIAN_FRONTEND: noninteractive
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Debug file structure
+      - name: Debug repo structure
         run: |
-          echo "=== FULL FILE TREE ==="
+          echo "===== FILE TREE ====="
           find . -type f | sort
 
-      - name: Verify config exists
-        run: |
-          if [ ! -f "./build/amd64/auto/config.sh" ]; then
-            echo "ERROR: config.sh not found!"
-            exit 1
-          fi
-
-      - name: Make config executable
-        run: chmod +x ./build/amd64/auto/config.sh
-
-      - name: Run config (amd64)
-        run: |
-          ./build/amd64/auto/config.sh amd64
-
-      - name: Install build tools (if config expects them)
+      - name: Install full build toolchain (fixes exit 127)
         run: |
           apt-get update
           apt-get install -y --no-install-recommends \
@@ -47,4 +33,34 @@ jobs:
             curl \
             wget \
             xz-utils \
-            file
+            file \
+            make \
+            gcc \
+            g++ \
+            cmake \
+            ninja-build \
+            python3 \
+            bash
+
+      - name: Verify config.sh exists
+        run: |
+          if [ ! -f "./build/amd64/auto/config.sh" ]; then
+            echo "ERROR: config.sh not found at expected path"
+            find . -name "config.sh"
+            exit 1
+          fi
+
+      - name: Make config executable
+        run: chmod +x ./build/amd64/auto/config.sh
+
+      - name: Run config (amd64)
+        run: |
+          cd ./build/amd64/auto
+          ./config.sh amd64
+
+      - name: Show PATH + sanity check (debug)
+        run: |
+          echo "PATH: $PATH"
+          which make || echo "make missing"
+          which gcc || echo "gcc missing"
+          which python3 || echo "python3 missing"
