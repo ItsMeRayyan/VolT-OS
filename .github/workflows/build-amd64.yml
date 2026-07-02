@@ -9,9 +9,6 @@ jobs:
   build-amd64:
     runs-on: ubuntu-latest
 
-    container:
-      image: debian:bookworm-slim
-
     env:
       DEBIAN_FRONTEND: noninteractive
       TMPDIR: /tmp
@@ -20,87 +17,60 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Show repository structure
-        run: |
-          echo "===== FILE TREE ====="
-          find . -type f | sort
+      - name: Show repo structure
+        run: find . -type f | sort
 
-      - name: Install build dependencies
+      - name: Install Live Build dependencies (HOST MODE)
         run: |
-          apt-get update
-          apt-get install -y --no-install-recommends \
-            bash \
-            coreutils \
-            findutils \
-            grep \
-            sed \
-            gawk \
-            file \
+          sudo apt-get update
+          sudo apt-get install -y \
+            live-build \
+            debootstrap \
+            squashfs-tools \
+            xorriso \
+            grub-pc-bin \
+            grub-efi-amd64-bin \
+            mtools \
+            dosfstools \
             build-essential \
             git \
             curl \
             wget \
             xz-utils \
-            squashfs-tools \
-            xorriso \
-            live-build \
-            debootstrap \
             ca-certificates \
-            gnupg \
-            grub-pc-bin \
-            grub-efi-amd64-bin \
-            mtools \
-            dosfstools
+            gnupg
 
       - name: Fix certificates
-        run: update-ca-certificates || true
+        run: sudo update-ca-certificates || true
 
-      - name: Verify config.sh exists
+      - name: Verify config exists
         run: |
-          if [ ! -f "./build/amd64/auto/config.sh" ]; then
-            echo "ERROR: config.sh not found"
-            find . -name "config.sh"
-            exit 1
-          fi
+          test -f ./build/amd64/auto/config.sh
 
-      - name: Prepare build directory cleanup
+      - name: Make config executable
+        run: chmod +x ./build/amd64/auto/config.sh
+
+      - name: Clean previous build
         run: |
           cd ./build/amd64/auto
           lb clean --purge || true
           rm -rf chroot binary cache || true
 
-      - name: Make config executable
-        run: chmod +x ./build/amd64/auto/config.sh
-
-      - name: Run config.sh (trace mode)
+      - name: Run config.sh
         run: |
           cd ./build/amd64/auto
           bash -x ./config.sh amd64
 
-      - name: Run Live Build (ISO generation)
+      - name: Run Live Build
         run: |
           cd ./build/amd64/auto
-          lb build || (echo "Live build failed" && exit 32)
+          sudo lb build
 
-      - name: Locate ISO output
-        run: |
-          echo "===== SEARCHING FOR ISO ====="
-          find . -type f -name "*.iso" || true
+      - name: Find ISO
+        run: find . -type f -name "*.iso" || true
 
-      - name: Copy ISO artifact
-        run: |
-          ISO_FILE=$(find . -type f -name "*.iso" | head -n 1 || true)
-
-          if [ -n "$ISO_FILE" ]; then
-            echo "Found ISO: $ISO_FILE"
-            cp "$ISO_FILE" ./VolT-OS-amd64.iso
-          else
-            echo "ERROR: No ISO generated"
-            exit 1
-          fi
-
-      - name: Upload ISO artifact
+      - name: Upload ISO
         uses: actions/upload-artifact@v4
         with:
           name: volt-os-amd64-iso
-          path: VolT-OS-amd64.iso
+          path: "**/*.iso"
