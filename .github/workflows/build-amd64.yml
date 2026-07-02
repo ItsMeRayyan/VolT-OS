@@ -1,4 +1,4 @@
-name: VolT OS AMD64 (Debian Stable)
+name: VolT OS AMD64 (Debian Live Build)
 
 on:
   workflow_dispatch:
@@ -19,33 +19,40 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Debug repo structure
+      - name: Show repo structure (debug)
         run: |
           echo "===== FILE TREE ====="
           find . -type f | sort
 
-      - name: Install full build toolchain (fixes exit 127)
+      - name: Install full build environment
         run: |
           apt-get update
           apt-get install -y --no-install-recommends \
+            bash \
+            coreutils \
+            findutils \
+            grep \
+            sed \
+            gawk \
+            file \
             build-essential \
             git \
             curl \
             wget \
             xz-utils \
-            file \
-            make \
-            gcc \
-            g++ \
-            cmake \
-            ninja-build \
-            python3 \
-            bash
+            squashfs-tools \
+            xorriso \
+            live-build \
+            debootstrap \
+            grub-pc-bin \
+            grub-efi-amd64-bin \
+            mtools \
+            dosfstools
 
       - name: Verify config.sh exists
         run: |
           if [ ! -f "./build/amd64/auto/config.sh" ]; then
-            echo "ERROR: config.sh not found at expected path"
+            echo "ERROR: config.sh not found"
             find . -name "config.sh"
             exit 1
           fi
@@ -53,14 +60,13 @@ jobs:
       - name: Make config executable
         run: chmod +x ./build/amd64/auto/config.sh
 
-      - name: Run config (amd64)
+      - name: Run build config (amd64)
         run: |
           cd ./build/amd64/auto
-          ./config.sh amd64
+          bash -x ./config.sh amd64
 
-      - name: Show PATH + sanity check (debug)
+      - name: Final sanity check
         run: |
           echo "PATH: $PATH"
-          which make || echo "make missing"
-          which gcc || echo "gcc missing"
-          which python3 || echo "python3 missing"
+          which lb || echo "lb still missing (should not happen)"
+          lb --version || true
