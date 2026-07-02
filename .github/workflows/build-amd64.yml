@@ -1,4 +1,4 @@
-name: VolT OS AMD64 (Debian Stable)
+name: VolT OS AMD64 (Debian)
 
 on:
   workflow_dispatch:
@@ -16,23 +16,27 @@ jobs:
       DEBIAN_FRONTEND: noninteractive
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Debug repository structure
+      - name: Debug repo (IMPORTANT)
         run: |
-          echo "===== ROOT FILES ====="
-          ls -la
-          echo "===== FULL TREE ====="
-          find . -maxdepth 4
+          echo "=== FILE TREE ==="
+          find . -type f | sort
 
-      - name: Update apt safely
+      - name: Ensure build.sh exists
         run: |
-          set -e
-          apt-get update -o Acquire::Retries=5
-          apt-get install -y --no-install-recommends ca-certificates
+          if [ ! -f "./build.sh" ]; then
+            echo "ERROR: build.sh NOT FOUND in root!"
+            echo "Searching for it..."
+            find . -name "build.sh"
+            exit 1
+          fi
 
-      - name: Install build dependencies
+      - name: Make build.sh executable
+        run: chmod +x ./build.sh
+
+      - name: Install dependencies
         run: |
           apt-get update
           apt-get install -y --no-install-recommends \
@@ -41,55 +45,8 @@ jobs:
             curl \
             wget \
             xz-utils \
-            file \
-            make \
-            gcc \
-            g++ \
-            python3 \
-            cmake \
-            ninja-build
+            file
 
-      - name: Make build script executable (if exists)
+      - name: Run build
         run: |
-          find . -name "build.sh" -exec chmod +x {} \;
-
-      - name: Build VolT OS (auto-detect)
-        run: |
-          set -e
-
-          echo "Searching for build system..."
-
-          if [ -f ./build.sh ]; then
-            echo "Found build.sh in root"
-            ./build.sh amd64
-
-          elif [ -f ./Makefile ]; then
-            echo "Found Makefile in root"
-            make amd64 || make
-
-          elif [ -f ./build/build.sh ]; then
-            echo "Found build.sh in build/"
-            chmod +x ./build/build.sh
-            ./build/build.sh amd64
-
-          elif [ -f ./src/build.sh ]; then
-            echo "Found build.sh in src/"
-            chmod +x ./src/build.sh
-            ./src/build.sh amd64
-
-          else
-            echo "❌ No build system found"
-            echo "Directory structure:"
-            find .
-            exit 1
-          fi
-
-      - name: Upload build artifacts (if any)
-        uses: actions/upload-artifact@v4
-        if: success()
-        with:
-          name: volt-os-amd64
-          path: |
-            build/
-            out/
-            dist/
+          ./build.sh amd64
