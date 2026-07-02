@@ -19,12 +19,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Debug repo structure
+      - name: Debug repository structure
         run: |
           echo "===== FILE TREE ====="
           find . -type f | sort
 
-      - name: Install build environment (live-build)
+      - name: Install build dependencies
         run: |
           apt-get update
           apt-get install -y --no-install-recommends \
@@ -49,7 +49,7 @@ jobs:
             mtools \
             dosfstools
 
-      - name: Verify config.sh exists
+      - name: Verify config exists
         run: |
           if [ ! -f "./build/amd64/auto/config.sh" ]; then
             echo "ERROR: config.sh not found"
@@ -57,20 +57,23 @@ jobs:
             exit 1
           fi
 
-      - name: Make config executable
-        run: chmod +x ./build/amd64/auto/config.sh
-
-      - name: Run VolT OS build config
+      - name: Run config.sh
         run: |
           cd ./build/amd64/auto
+          chmod +x config.sh
           bash -x ./config.sh amd64
 
-      - name: Locate ISO output
+      - name: Run Live Build (THIS generates ISO)
+        run: |
+          cd ./build/amd64/auto
+          lb build
+
+      - name: Locate ISO file
         run: |
           echo "===== SEARCHING FOR ISO ====="
           find . -type f -name "*.iso" || true
 
-      - name: Rename ISO (if found)
+      - name: Copy ISO for upload
         run: |
           ISO_FILE=$(find . -type f -name "*.iso" | head -n 1 || true)
 
@@ -78,13 +81,12 @@ jobs:
             echo "Found ISO: $ISO_FILE"
             cp "$ISO_FILE" ./VolT-OS-amd64.iso
           else
-            echo "No ISO found yet"
+            echo "ERROR: No ISO generated"
+            exit 1
           fi
 
       - name: Upload ISO artifact
         uses: actions/upload-artifact@v4
         with:
           name: volt-os-amd64-iso
-          path: |
-            VolT-OS-amd64.iso
-            **/*.iso
+          path: VolT-OS-amd64.iso
