@@ -1,4 +1,4 @@
-name: VolT OS AMD64 ISO (Stable Live Build)
+name: VolT OS AMD64 ISO Build
 
 on:
   workflow_dispatch:
@@ -14,17 +14,18 @@ jobs:
 
     env:
       DEBIAN_FRONTEND: noninteractive
+      TMPDIR: /tmp
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Debug repository structure
+      - name: Show repository structure
         run: |
           echo "===== FILE TREE ====="
           find . -type f | sort
 
-      - name: Install full build + bootstrap tools
+      - name: Install build dependencies
         run: |
           apt-get update
           apt-get install -y --no-install-recommends \
@@ -51,9 +52,8 @@ jobs:
             mtools \
             dosfstools
 
-      - name: Fix certificates (important for debootstrap)
-        run: |
-          update-ca-certificates || true
+      - name: Fix certificates
+        run: update-ca-certificates || true
 
       - name: Verify config.sh exists
         run: |
@@ -63,25 +63,31 @@ jobs:
             exit 1
           fi
 
+      - name: Prepare build directory cleanup
+        run: |
+          cd ./build/amd64/auto
+          lb clean --purge || true
+          rm -rf chroot binary cache || true
+
       - name: Make config executable
         run: chmod +x ./build/amd64/auto/config.sh
 
-      - name: Run config.sh (debug mode)
+      - name: Run config.sh (trace mode)
         run: |
           cd ./build/amd64/auto
           bash -x ./config.sh amd64
 
-      - name: Run Live Build (ISO creation)
+      - name: Run Live Build (ISO generation)
         run: |
           cd ./build/amd64/auto
-          lb build
+          lb build || (echo "Live build failed" && exit 32)
 
-      - name: Find ISO output
+      - name: Locate ISO output
         run: |
           echo "===== SEARCHING FOR ISO ====="
           find . -type f -name "*.iso" || true
 
-      - name: Prepare ISO artifact
+      - name: Copy ISO artifact
         run: |
           ISO_FILE=$(find . -type f -name "*.iso" | head -n 1 || true)
 
