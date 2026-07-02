@@ -1,6 +1,6 @@
 lb config \
   --mode debian \
-  --distribution trixie \
+  --distribution bookworm \
   --architecture amd64 \
   --binary-images iso-hybrid \
   --debian-installer live \
