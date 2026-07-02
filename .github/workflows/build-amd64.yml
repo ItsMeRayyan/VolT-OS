@@ -42,6 +42,12 @@ jobs:
             --mirror-chroot https://deb.debian.org/debian/ \
             --mirror-binary https://deb.debian.org/debian/ 
 
+            - name: Show generated sources
+  working-directory: build/amd64
+  run: |
+    find config -type f | sort
+    echo "===="
+    find config -type f -exec echo "---- {} ----" \; -exec cat {} \;
       - name: Build ISO
         working-directory: build/amd64
         run: sudo lb build
