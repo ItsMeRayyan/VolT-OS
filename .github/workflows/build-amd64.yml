@@ -40,19 +40,24 @@ jobs:
             --archive-areas "main contrib non-free non-free-firmware" \
             --mirror-bootstrap https://deb.debian.org/debian/ \
             --mirror-chroot https://deb.debian.org/debian/ \
-            --mirror-binary https://deb.debian.org/debian/ 
+            --mirror-binary https://deb.debian.org/debian/
 
-            - name: Show generated sources
-  working-directory: build/amd64
-  run: |
-    find config -type f | sort
-    echo "===="
-    find config -type f -exec echo "---- {} ----" \; -exec cat {} \;
+      - name: Show generated config
+        working-directory: build/amd64
+        run: |
+          echo "===== CONFIG FILES ====="
+          find config -type f | sort || true
+          echo ""
+          echo "===== CONFIG CONTENTS ====="
+          find config -type f -exec echo "----- {} -----" \; -exec cat {} \; || true
+
       - name: Build ISO
         working-directory: build/amd64
-        run: sudo lb build
+        run: |
+          sudo lb build
 
       - name: Upload ISO
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: VolT-OS-amd64
