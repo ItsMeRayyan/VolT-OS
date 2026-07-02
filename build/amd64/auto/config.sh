@@ -1,6 +1,3 @@
-#!/bin/sh
-set -e
-
 lb config \
   --mode debian \
   --distribution trixie \
