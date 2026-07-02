@@ -1,4 +1,4 @@
-name: VolT OS AMD64 ISO (Debian Live Build)
+name: VolT OS AMD64 ISO (Stable Live Build)
 
 on:
   workflow_dispatch:
@@ -24,7 +24,7 @@ jobs:
           echo "===== FILE TREE ====="
           find . -type f | sort
 
-      - name: Install build dependencies
+      - name: Install full build + bootstrap tools
         run: |
           apt-get update
           apt-get install -y --no-install-recommends \
@@ -44,12 +44,18 @@ jobs:
             xorriso \
             live-build \
             debootstrap \
+            ca-certificates \
+            gnupg \
             grub-pc-bin \
             grub-efi-amd64-bin \
             mtools \
             dosfstools
 
-      - name: Verify config exists
+      - name: Fix certificates (important for debootstrap)
+        run: |
+          update-ca-certificates || true
+
+      - name: Verify config.sh exists
         run: |
           if [ ! -f "./build/amd64/auto/config.sh" ]; then
             echo "ERROR: config.sh not found"
@@ -57,23 +63,25 @@ jobs:
             exit 1
           fi
 
-      - name: Run config.sh
+      - name: Make config executable
+        run: chmod +x ./build/amd64/auto/config.sh
+
+      - name: Run config.sh (debug mode)
         run: |
           cd ./build/amd64/auto
-          chmod +x config.sh
           bash -x ./config.sh amd64
 
-      - name: Run Live Build (THIS generates ISO)
+      - name: Run Live Build (ISO creation)
         run: |
           cd ./build/amd64/auto
           lb build
 
-      - name: Locate ISO file
+      - name: Find ISO output
         run: |
           echo "===== SEARCHING FOR ISO ====="
           find . -type f -name "*.iso" || true
 
-      - name: Copy ISO for upload
+      - name: Prepare ISO artifact
         run: |
           ISO_FILE=$(find . -type f -name "*.iso" | head -n 1 || true)
 
