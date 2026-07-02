@@ -1,4 +1,4 @@
-name: VolT OS AMD64 (Debian)
+name: VolT OS AMD64
 
 on:
   workflow_dispatch:
@@ -19,24 +19,26 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Debug repo (IMPORTANT)
+      - name: Debug file structure
         run: |
-          echo "=== FILE TREE ==="
+          echo "=== FULL FILE TREE ==="
           find . -type f | sort
 
-      - name: Ensure build.sh exists
+      - name: Verify config exists
         run: |
-          if [ ! -f "./build.sh" ]; then
-            echo "ERROR: build.sh NOT FOUND in root!"
-            echo "Searching for it..."
-            find . -name "build.sh"
+          if [ ! -f "./build/amd64/auto/config.sh" ]; then
+            echo "ERROR: config.sh not found!"
             exit 1
           fi
 
-      - name: Make build.sh executable
-        run: chmod +x ./build.sh
+      - name: Make config executable
+        run: chmod +x ./build/amd64/auto/config.sh
 
-      - name: Install dependencies
+      - name: Run config (amd64)
+        run: |
+          ./build/amd64/auto/config.sh amd64
+
+      - name: Install build tools (if config expects them)
         run: |
           apt-get update
           apt-get install -y --no-install-recommends \
@@ -46,7 +48,3 @@ jobs:
             wget \
             xz-utils \
             file
-
-      - name: Run build
-        run: |
-          ./build.sh amd64
