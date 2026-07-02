@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -e
 
 ARCH=amd64
@@ -15,5 +14,4 @@ lb config \
   --mirror-chroot http://deb.debian.org/debian/ \
   --mirror-binary http://deb.debian.org/debian/ \
   --security true \
-  --security-suite bookworm-security \
   --bootappend-live "boot=live components quiet splash"
