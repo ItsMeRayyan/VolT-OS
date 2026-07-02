@@ -1,64 +1,60 @@
-name: Build VolT OS AMD64
+name: VolT OS AMD64 Build (Debian)
 
 on:
-  workflow_dispatch:
+  push:
+  pull_request:
 
 jobs:
-  build:
+  build-amd64:
     runs-on: ubuntu-latest
 
+    container:
+      image: debian:bookworm-slim
+
+    env:
+      DEBIAN_FRONTEND: noninteractive
+
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: Update apt safely (fix repo issues)
         run: |
-          sudo apt update
-          sudo apt install -y \
-            live-build \
-            debootstrap \
-            squashfs-tools \
-            xorriso \
+          set -e
+          rm -rf /var/lib/apt/lists/*
+          apt-get clean
+
+          apt-get update -o Acquire::Retries=5 -o Acquire::http::Timeout=15 || {
+            echo "Retrying apt update with safer mirrors..."
+            sed -i 's/deb.debian.org/ftp.debian.org/g' /etc/apt/sources.list
+            apt-get update -o Acquire::Retries=5 -o Acquire::http::Timeout=15
+          }
+
+      - name: Install build dependencies
+        run: |
+          apt-get install -y --no-install-recommends \
+            build-essential \
+            git \
             ca-certificates \
-            debian-archive-keyring
+            curl \
+            wget \
+            xz-utils \
+            file
 
-      - name: Clean previous build
-        working-directory: build/amd64
+      - name: Verify environment
         run: |
-          sudo lb clean --purge || true
-          rm -rf chroot binary cache config
+          uname -a
+          gcc --version
+          make --version
 
-      - name: Configure live-build
-        working-directory: build/amd64
+      - name: Build VolT OS (amd64)
         run: |
-          sudo lb config \
-            --mode debian \
-            --distribution trixie \
-            --architecture amd64 \
-            --binary-images iso-hybrid \
-            --debian-installer live \
-            --archive-areas "main contrib non-free non-free-firmware" \
-            --mirror-bootstrap https://deb.debian.org/debian/ \
-            --mirror-chroot https://deb.debian.org/debian/ \
-            --mirror-binary https://deb.debian.org/debian/
-
-      - name: Show generated config
-        working-directory: build/amd64
-        run: |
-          echo "===== CONFIG FILES ====="
-          find config -type f | sort || true
-          echo ""
-          echo "===== CONFIG CONTENTS ====="
-          find config -type f -exec echo "----- {} -----" \; -exec cat {} \; || true
-
-      - name: Build ISO
-        working-directory: build/amd64
-        run: |
-          sudo lb build
-
-      - name: Upload ISO
-        if: success()
-        uses: actions/upload-artifact@v4
-        with:
-          name: VolT-OS-amd64
-          path: build/amd64/*.iso
+          if [ -f build.sh ]; then
+            chmod +x build.sh
+            ./build.sh amd64
+          elif [ -f Makefile ]; then
+            make amd64
+          else
+            echo "No build script found"
+            exit 1
+          fi
