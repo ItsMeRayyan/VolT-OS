@@ -1,17 +1,13 @@
-#!/bin/bash
+#!/bin/sh
 set -e
-
-ARCH=amd64
 
 lb config \
   --mode debian \
-  --distribution bookworm \
-  --architecture ${ARCH} \
+  --distribution trixie \
+  --architecture amd64 \
   --binary-images iso-hybrid \
   --debian-installer live \
   --archive-areas "main contrib non-free non-free-firmware" \
-  --mirror-bootstrap http://deb.debian.org/debian/ \
-  --mirror-chroot http://deb.debian.org/debian/ \
-  --mirror-binary http://deb.debian.org/debian/ \
-  --security true \
-  --bootappend-live "boot=live components quiet splash"
+  --mirror-bootstrap https://deb.debian.org/debian/ \
+  --mirror-chroot https://deb.debian.org/debian/ \
+  --mirror-binary https://deb.debian.org/debian/
