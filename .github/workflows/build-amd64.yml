@@ -56,6 +56,16 @@ jobs:
       - name: Make config executable
         run: chmod +x ./build/amd64/auto/config.sh
 
+      - name: Patch live-build for Trixie
+        run: |
+          FWL=/usr/share/live/build/functions/firmwarelists.sh
+          if [ -f "$FWL" ]; then
+            sudo sed -i \
+              -e 's/firmware-nvidia-tesla-gsp//g' \
+              -e 's/nvidia-tesla-kernel-support/nvidia-support/g' \
+              "$FWL"
+          fi
+
       - name: Clean previous build
         run: |
           cd ./build/amd64

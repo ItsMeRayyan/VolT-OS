@@ -3,7 +3,7 @@ systemd
 dbus
 
 htop
-neofetch
+fastfetch
 nano
 vim
 

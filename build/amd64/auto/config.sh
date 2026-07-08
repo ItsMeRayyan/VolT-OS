@@ -7,6 +7,7 @@ lb config \
   --architecture amd64 \
   --binary-images iso-hybrid \
   --debian-installer live \
+  --firmware-chroot false \
   --archive-areas "main contrib non-free non-free-firmware" \
   --mirror-bootstrap https://deb.debian.org/debian/ \
   --mirror-chroot https://deb.debian.org/debian/ \
