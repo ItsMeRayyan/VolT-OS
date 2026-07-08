@@ -7,12 +7,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      DEBIAN_FRONTEND: noninteractive
+
     steps:
       - uses: actions/checkout@v4
 
-      - run: |
-          sudo apt update
-          sudo apt install -y live-build debootstrap squashfs-tools xorriso
+      - name: Install Live Build dependencies
+        run: |
+          for attempt in 1 2 3; do
+            sudo apt-get update -y && break
+            echo "apt-get update failed (attempt ${attempt}), retrying..."
+            sleep 10
+          done
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            live-build debootstrap squashfs-tools xorriso
 
       - run: |
           lb config \

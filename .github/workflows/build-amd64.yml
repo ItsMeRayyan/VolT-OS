@@ -22,8 +22,14 @@ jobs:
 
       - name: Install Live Build dependencies (HOST MODE)
         run: |
-          sudo apt-get update
-          sudo apt-get install -y \
+          for attempt in 1 2 3; do
+            sudo apt-get update -y && break
+            echo "apt-get update failed (attempt ${attempt}), retrying..."
+            sleep 10
+          done
+          echo 'grub-pc grub-pc/install_devices multiselect' | sudo debconf-set-selections
+          echo 'grub-pc grub-pc/install_devices_empty boolean true' | sudo debconf-set-selections
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
             live-build \
             debootstrap \
             squashfs-tools \
@@ -52,18 +58,18 @@ jobs:
 
       - name: Clean previous build
         run: |
-          cd ./build/amd64/auto
+          cd ./build/amd64
           lb clean --purge || true
           rm -rf chroot binary cache || true
 
       - name: Run config.sh
         run: |
-          cd ./build/amd64/auto
-          bash -x ./config.sh amd64
+          cd ./build/amd64
+          bash -x ./auto/config.sh amd64
 
       - name: Run Live Build
         run: |
-          cd ./build/amd64/auto
+          cd ./build/amd64
           sudo lb build
 
       - name: Find ISO
